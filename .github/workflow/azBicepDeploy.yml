@@ -29,10 +29,7 @@ jobs:
             - uses: azure/login@v1
               name: Azure Login
               with:
-                client-id: secrets.AZURE_CLIENT_ID
-                client-secret: secrets.AZURE_CLIENT_SECRET
-                tenant-id: secrets.AZURE_TENANT_ID
-                subscription-id: secrets.AZURE_SUBSCRIPTION_ID
+                creds: ${{ secrets.AZURE_CREDENTIALS }}
 
             - uses: azure/cli@v1
               name: Azure CLI
@@ -48,29 +45,26 @@ jobs:
                 inlineScript: |
                     az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
     
-    # Deploy the resources
-    deployResources:
-        runs-on: ubuntu-latest
-        ## environment: $environment
-        needs: [
-          validateDeployment
-        ]
+    # # Deploy the resources
+    # deployResources:
+    #     runs-on: ubuntu-latest
+    #     ## environment: $environment
+    #     needs: [
+    #       validateDeployment
+    #     ]
         
-        steps:
-            - uses: action/checkout@v4
-              name: Checkout
+    #     steps:
+    #         - uses: action/checkout@v4
+    #           name: Checkout
 
-            - uses: azure/login@v1
-              name: Azure Login
-              with:
-                client-id: secrets.AZURE_CLIENT_ID
-                client-secret: secrets.AZURE_CLIENT_SECRET
-                tenant-id: secrets.AZURE_TENANT_ID
-                subscription-id: secrets.AZURE_SUBSCRIPTION_ID
+    #         - uses: azure/login@v1
+    #           name: Azure Login
+    #           with:
+    #             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-            - uses: azure/cli@v1
-              name: Azure CLI
-              with:
-                azcliversion: ${{ env.azCliVersion }}
-                inlineScript: |
-                    az deployment sub create --location westeurope --template-file ./azDeployment.bicep --verbose
+    #         - uses: azure/cli@v1
+    #           name: Azure CLI
+    #           with:
+    #             azcliversion: ${{ env.azCliVersion }}
+    #             inlineScript: |
+    #                 az deployment sub create --location westeurope --template-file ./azDeployment.bicep --verbose

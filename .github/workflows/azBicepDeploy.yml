@@ -23,7 +23,7 @@ jobs:
         runs-on: ubuntu-latest
         
         steps:
-            - uses: action/checkout@main
+            - uses: actions/checkout@main
               name: Checkout
 
             - uses: azure/login@v1
@@ -54,7 +54,7 @@ jobs:
     #     ]
         
     #     steps:
-    #         - uses: action/checkout@v4
+    #         - uses: actions/checkout@main
     #           name: Checkout
 
     #         - uses: azure/login@v1

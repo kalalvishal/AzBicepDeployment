@@ -14,16 +14,17 @@ permissions:
     contents: read
 
 env:
-    azCliVersion: 2.5.72
-    ## environment: 'azBicepDeployment'
+    azCliVersion: 2.30.0
+    environment: 'AzureDemoEnv'
             
 jobs:
-    # Validate the Bicep templates
+    # Validate and Plan the deployment
     validateDeployment:
         runs-on: ubuntu-latest
         
         steps:
-            - uses: action/checkout@v4
+          
+            - uses: actions/checkout@main
               name: Checkout
 
             - uses: azure/login@v1
@@ -32,39 +33,41 @@ jobs:
                 creds: ${{ secrets.AZURE_CREDENTIALS }}
 
             - uses: azure/cli@v1
-              name: Azure CLI
+              name: validateTemplates
               with:
-                azcliversion: $azCliVersion
                 inlineScript: |
                     az deployment sub validate --location westeurope --template-file ./azDeployment.bicep
-            
+
             - uses: azure/cli@v1
-              name: Azure CLI
+              name: planDeployment
               with:
-                azcliversion: $azCliVersion
                 inlineScript: |
                     az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
-    
-    # # Deploy the resources
-    # deployResources:
-    #     runs-on: ubuntu-latest
-    #     ## environment: $environment
-    #     needs: [
-    #       validateDeployment
-    #     ]
+
+    # Deploy the resources
+    deployResources:
+        runs-on: ubuntu-latest
+        environment: 
+          name: $environment
+        needs: [
+          validateDeployment
+        ]
         
-    #     steps:
-    #         - uses: action/checkout@v4
-    #           name: Checkout
+        steps:
+            - uses: actions/checkout@main
+              name: Checkout
 
-    #         - uses: azure/login@v1
-    #           name: Azure Login
-    #           with:
-    #             creds: ${{ secrets.AZURE_CREDENTIALS }}
+            - uses: azure/login@v1
+              name: Azure Login
+              with:
+                creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    #         - uses: azure/cli@v1
-    #           name: Azure CLI
-    #           with:
-    #             azcliversion: ${{ env.azCliVersion }}
-    #             inlineScript: |
-    #                 az deployment sub create --location westeurope --template-file ./azDeployment.bicep --verbose
+            # Deploy Bicep file
+            - name: deploy
+              uses: azure/arm-deploy@v1
+              with:
+                scope: 'subscription'
+                subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+                template: ./azDeployment.bicep
+              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
+                failOnStdErr: false

@@ -32,17 +32,26 @@ jobs:
               with:
                 creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-            - uses: azure/cli@v1
-              name: validateTemplates
+            # Deploy Bicep file
+            - name: validateTemplates
+              uses: azure/arm-deploy@v1
               with:
-                inlineScript: |
-                    az deployment sub validate --location westus --template-file ./azDeployment.bicep
+                scope: 'subscription'
+                template: ./azDeployment.bicep
+              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
+                failOnStdErr: false
+                region: 'westus'
+                deploymentMode: 'Validate'
 
-            - uses: azure/cli@v1
-              name: planDeployment
+            - name: planDeployment
+              uses: azure/arm-deploy@v1
               with:
-                inlineScript: |
-                    az deployment sub create --location westus --template-file ./azDeployment.bicep --what-if --verbose
+                scope: 'subscription'
+                template: ./azDeployment.bicep
+              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
+                failOnStdErr: false
+                region: 'westus'
+                additionalArguments: "--what-if"
 
     # Deploy the resources
     deployResources:

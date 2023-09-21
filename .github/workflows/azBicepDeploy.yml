@@ -23,6 +23,7 @@ jobs:
         runs-on: ubuntu-latest
         
         steps:
+          
             - uses: actions/checkout@main
               name: Checkout
 
@@ -34,17 +35,18 @@ jobs:
             - uses: azure/cli@v1
               name: Azure CLI
               with:
-                azcliversion: 2.30.0
                 inlineScript: |
                     az deployment sub validate --location westeurope --template-file ./azDeployment.bicep
-            
+              env:
+                azCliVersion: 2.30.0
+
             - uses: azure/cli@v1
               name: Azure CLI
               with:
-                azcliversion: 2.30.0
                 inlineScript: |
                     az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
-    
+              env:
+                azCliVersion: 2.30.0
     # # Deploy the resources
     # deployResources:
     #     runs-on: ubuntu-latest

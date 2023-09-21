@@ -4,8 +4,10 @@ param tags object = {
   purpose: 'githubDemo'
 }
 
+targetScope = 'subscription'
+
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourceGroupName
   location: location
-  tags: mergeTags
+  tags: tags
 }

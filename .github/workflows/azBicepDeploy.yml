@@ -47,7 +47,7 @@ jobs:
     # Deploy the resources
     deployResources:
         runs-on: ubuntu-latest
-        environment: $environment
+        environment: 'AzureDemoEnv'
         needs: [
           validateDeployment
         ]

@@ -19,7 +19,7 @@ env:
             
 jobs:
     # Validate the Bicep templates
-    validateDeployment:
+    validation:
         runs-on: ubuntu-latest
         
         steps:
@@ -33,20 +33,20 @@ jobs:
                 creds: ${{ secrets.AZURE_CREDENTIALS }}
 
             - uses: azure/cli@v1
-              name: Azure CLI
+              name: validateDeployment
               with:
                 inlineScript: |
                     az deployment sub validate --location westeurope --template-file ./azDeployment.bicep
-              env:
-                azCliVersion: 2.30.0
+              # env:
+              #   azCliVersion: 2.30.0
 
             - uses: azure/cli@v1
-              name: Azure CLI
+              name: planDeployment
               with:
                 inlineScript: |
                     az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
-              env:
-                azCliVersion: 2.30.0
+              # env:
+              #   azCliVersion: 2.30.0
     # # Deploy the resources
     # deployResources:
     #     runs-on: ubuntu-latest

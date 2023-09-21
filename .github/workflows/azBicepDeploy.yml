@@ -36,18 +36,19 @@ jobs:
               name: validateTemplates
               with:
                 inlineScript: |
-                    az deployment sub validate --location westeurope --template-file ./azDeployment.bicep
+                    az deployment sub validate --location westus --template-file ./azDeployment.bicep
 
             - uses: azure/cli@v1
               name: planDeployment
               with:
                 inlineScript: |
-                    az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
+                    az deployment sub create --location westus --template-file ./azDeployment.bicep --what-if --verbose
 
     # Deploy the resources
     deployResources:
         runs-on: ubuntu-latest
-        environment: 'AzureDemoEnv'
+        environment: 
+          name: 'AzureDemoEnv'
         needs: [
           validateDeployment
         ]

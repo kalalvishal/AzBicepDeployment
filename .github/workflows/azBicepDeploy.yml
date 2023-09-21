@@ -47,8 +47,7 @@ jobs:
     # Deploy the resources
     deployResources:
         runs-on: ubuntu-latest
-        environment: 
-          name: $environment
+        environment: $environment
         needs: [
           validateDeployment
         ]
@@ -67,7 +66,6 @@ jobs:
               uses: azure/arm-deploy@v1
               with:
                 scope: 'subscription'
-                subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false

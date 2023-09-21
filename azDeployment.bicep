@@ -2,6 +2,7 @@ param resourceGroupName string = 'RG-azBicepDeploy-Github'
 param location string = 'westus'
 param tags object = {
   purpose: 'githubDemo'
+  Owner: 'Vishal Kalal'
 }
 
 targetScope = 'subscription'

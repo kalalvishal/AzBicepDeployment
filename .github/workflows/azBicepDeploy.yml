@@ -18,8 +18,8 @@ env:
     ## environment: 'azBicepDeployment'
             
 jobs:
-    # Validate the Bicep templates
-    validation:
+    # Validate and Plan the deployment
+    validateDeployment:
         runs-on: ubuntu-latest
         
         steps:
@@ -33,40 +33,39 @@ jobs:
                 creds: ${{ secrets.AZURE_CREDENTIALS }}
 
             - uses: azure/cli@v1
-              name: validateDeployment
+              name: validateTemplates
               with:
                 inlineScript: |
                     az deployment sub validate --location westeurope --template-file ./azDeployment.bicep
-              # env:
-              #   azCliVersion: 2.30.0
 
             - uses: azure/cli@v1
               name: planDeployment
               with:
                 inlineScript: |
                     az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
-              # env:
-              #   azCliVersion: 2.30.0
-    # # Deploy the resources
-    # deployResources:
-    #     runs-on: ubuntu-latest
-    #     ## environment: $environment
-    #     needs: [
-    #       validateDeployment
-    #     ]
+
+    # Deploy the resources
+    deployResources:
+        runs-on: ubuntu-latest
+        ## environment: $environment
+        needs: [
+          validateDeployment
+        ]
         
-    #     steps:
-    #         - uses: actions/checkout@main
-    #           name: Checkout
+        steps:
+            - uses: actions/checkout@main
+              name: Checkout
 
-    #         - uses: azure/login@v1
-    #           name: Azure Login
-    #           with:
-    #             creds: ${{ secrets.AZURE_CREDENTIALS }}
+            - uses: azure/login@v1
+              name: Azure Login
+              with:
+                creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    #         - uses: azure/cli@v1
-    #           name: Azure CLI
-    #           with:
-    #             azcliversion: ${{ env.azCliVersion }}
-    #             inlineScript: |
-    #                 az deployment sub create --location westeurope --template-file ./azDeployment.bicep --verbose
+            # Deploy Bicep file
+            - name: deploy
+              uses: azure/arm-deploy@v1
+              with:
+                subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+                template: ./azDeployment.bicep
+              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
+                failOnStdErr: false

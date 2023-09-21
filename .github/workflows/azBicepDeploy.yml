@@ -14,7 +14,7 @@ permissions:
     contents: read
 
 env:
-    azCliVersion: 2.5.72
+    azCliVersion: 2.30.0
     ## environment: 'azBicepDeployment'
             
 jobs:

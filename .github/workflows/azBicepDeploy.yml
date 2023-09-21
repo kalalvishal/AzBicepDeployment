@@ -34,14 +34,14 @@ jobs:
             - uses: azure/cli@v1
               name: Azure CLI
               with:
-                azcliversion: $azCliVersion
+                azcliversion: 2.30.0
                 inlineScript: |
                     az deployment sub validate --location westeurope --template-file ./azDeployment.bicep
             
             - uses: azure/cli@v1
               name: Azure CLI
               with:
-                azcliversion: $azCliVersion
+                azcliversion: 2.30.0
                 inlineScript: |
                     az deployment sub create --location westeurope --template-file ./azDeployment.bicep --what-if --verbose
     

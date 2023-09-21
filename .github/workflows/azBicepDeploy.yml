@@ -69,3 +69,4 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
+                region: 'westus'

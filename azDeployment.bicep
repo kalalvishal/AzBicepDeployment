@@ -12,3 +12,10 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   location: location
   tags: tags
 }
+
+resource resourceGroup1 'Microsoft.Resources/resourceGroups@2022-09-01' = {
+  name: '${resourceGroupName}-1'
+  location: location
+  tags: tags
+}
+

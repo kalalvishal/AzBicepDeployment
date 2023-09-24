@@ -42,6 +42,7 @@ jobs:
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
                 deploymentMode: 'Validate'
+                region: ${{ vars.region }}
 
             - name: planDeployment
               uses: azure/arm-deploy@v1
@@ -51,11 +52,12 @@ jobs:
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
                 additionalArguments: "--what-if"
+                region: ${{ vars.region }}
 
     # Deploy the resources
     deployResources:
         runs-on: ubuntu-latest
-        environment: env.environment
+        environment: ${{ vars.environment}}
         needs: [
           validateDeployment
         ]

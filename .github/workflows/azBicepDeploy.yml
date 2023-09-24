@@ -39,7 +39,6 @@ jobs:
               with:
                 scope: 'subscription'
                 template: ./azDeployment.bicep
-              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
                 deploymentMode: 'Validate'
                 region: ${{ env.region }}
@@ -49,7 +48,6 @@ jobs:
               with:
                 scope: 'subscription'
                 template: ./azDeployment.bicep
-              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
                 additionalArguments: "--what-if"
                 region: ${{ env.region }}
@@ -79,3 +77,4 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
+                region: ${{ env.region }}

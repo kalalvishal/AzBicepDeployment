@@ -16,12 +16,12 @@ permissions:
 env:
     azCliVersion: 2.30.0
     environment: 'AzureDemoEnv'
+    region: 'westus'
             
 jobs:
     # Validate and Plan the deployment
     validateDeployment:
         runs-on: ubuntu-latest
-        
         steps:
           
             - uses: actions/checkout@main
@@ -38,26 +38,24 @@ jobs:
               with:
                 scope: 'subscription'
                 template: ./azDeployment.bicep
-              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: 'westus'
                 deploymentMode: 'Validate'
+                region: ${{ env.region }}
 
             - name: planDeployment
               uses: azure/arm-deploy@v1
               with:
                 scope: 'subscription'
                 template: ./azDeployment.bicep
-              # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: 'westus'
                 additionalArguments: "--what-if"
+                region: ${{ env.region }}
 
     # Deploy the resources
     deployResources:
+        if: ( github.ref == 'refs/heads/main' )
         runs-on: ubuntu-latest
-        environment: 
-          name: 'AzureDemoEnv'
+        environment: 'AzureDemoEnv'
         needs: [
           validateDeployment
         ]
@@ -79,4 +77,4 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: 'westus'
+                region: ${{ env.region }}

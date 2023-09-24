@@ -55,7 +55,7 @@ jobs:
     # Deploy the resources
     deployResources:
         runs-on: ubuntu-latest
-        environment: ${{ github.env.environment}}
+        environment: ${{ vars.environment}}
         needs: [
           validateDeployment
         ]

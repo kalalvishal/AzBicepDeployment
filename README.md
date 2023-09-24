@@ -1,2 +1,2 @@
-# AzureIaCDemo
-This Repo is used to Demo Azure IaC.
+# AzureBicepDeployment
+This Repo is used to Demo Azure Resources using bicep templates.

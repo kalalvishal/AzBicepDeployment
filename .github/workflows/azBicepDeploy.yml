@@ -16,6 +16,7 @@ permissions:
 env:
     azCliVersion: 2.30.0
     environment: 'AzureDemoEnv'
+    region: 'westus'
             
 jobs:
     # Validate and Plan the deployment
@@ -40,7 +41,7 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: 'westus'
+                region: env.region
                 deploymentMode: 'Validate'
 
             - name: planDeployment
@@ -50,14 +51,13 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: 'westus'
+                region: env.region
                 additionalArguments: "--what-if"
 
     # Deploy the resources
     deployResources:
         runs-on: ubuntu-latest
-        environment: 
-          name: 'AzureDemoEnv'
+        environment: env.environment
         needs: [
           validateDeployment
         ]
@@ -79,4 +79,4 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: 'westus'
+                region: env.region

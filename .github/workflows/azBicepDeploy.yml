@@ -41,7 +41,6 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: env.region
                 deploymentMode: 'Validate'
 
             - name: planDeployment
@@ -51,7 +50,6 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: env.region
                 additionalArguments: "--what-if"
 
     # Deploy the resources
@@ -79,4 +77,3 @@ jobs:
                 template: ./azDeployment.bicep
               # parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
                 failOnStdErr: false
-                region: env.region

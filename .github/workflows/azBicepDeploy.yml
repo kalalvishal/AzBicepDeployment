@@ -21,8 +21,8 @@ env:
 jobs:
     # Validate and Plan the deployment
     validateDeployment:
+        if: ( github.ref != 'refs/heads/main' )
         runs-on: ubuntu-latest
-        
         steps:
           
             - uses: actions/checkout@main
@@ -54,6 +54,7 @@ jobs:
 
     # Deploy the resources
     deployResources:
+        if: ( github.ref == 'refs/heads/main' )
         runs-on: ubuntu-latest
         environment: 'AzureDemoEnv'
         needs: [

@@ -21,7 +21,6 @@ env:
 jobs:
     # Validate and Plan the deployment
     validateDeployment:
-        if: ( github.ref != 'refs/heads/main' )
         runs-on: ubuntu-latest
         steps:
           

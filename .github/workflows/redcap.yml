@@ -31,20 +31,20 @@ jobs:
             run: | 
                 sudo apt-get install unzip -y && sudo apt-get install -y python3 python3-pip
         
-          - name: pwd & ls
-            run: | 
-                pwd
-                ls
+          - name: listDir01
+            run: ls
         
           - name: runScript
             run: | 
                 ./deploy.sh
+          
+          - name: listDir02
+            run: ls
 
           - uses: montudor/action-zip@v1
+            name: unzip
             with:
                 args: unzip -qq redcap.zip -d redcap
           
-          - name: pwd & ls
-            run: | 
-                pwd
-                ls
+          - name: listDir03
+            run: ls

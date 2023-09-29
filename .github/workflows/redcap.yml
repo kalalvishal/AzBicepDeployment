@@ -36,10 +36,7 @@ jobs:
             run: ls
         
           - name: downloadRedcap
-            run: |
-                echo "Downloading REDCap"
-                wget ${{ env.redcap }} -O redcap.zip
-                ls -l redcap.zip
+            run: deploy.sh
           
           - name: runScript
             run: |

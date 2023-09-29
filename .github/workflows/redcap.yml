@@ -20,7 +20,7 @@ env:
 
 jobs:
     # Validate the Bicep templates
-    validateDeployment:
+    redcap-unzip-test:
         runs-on: ubuntu-latest
 
         steps:
@@ -29,7 +29,7 @@ jobs:
 
           - name: installPrereqs
             run: | 
-                apt-get install unzip -y && apt-get install -y python3 python3-pip
+                sudo apt-get install unzip -y && sudo apt-get install -y python3 python3-pip
         
           - name: runScript
             run: | 

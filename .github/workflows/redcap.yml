@@ -41,10 +41,8 @@ jobs:
           - name: listDir02
             run: ls
 
-          - uses: montudor/action-zip@v1
-            name: unzip
-            with:
-                args: unzip -qq redcap.zip -d redcap
+          - name: runScript
+            run: unzip -qq redcap.zip -d redcap
           
           - name: listDir03
             run: ls

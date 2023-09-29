@@ -38,4 +38,4 @@ jobs:
         
           - name: runScript
             run: | 
-                deploy.sh
+                ./deploy.sh

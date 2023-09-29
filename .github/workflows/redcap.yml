@@ -17,6 +17,7 @@ env:
     azCliVersion: 2.30.0
     environment: 'env-redcap'
     region: 'eastus'
+    redcap: './redcap.zip'
     
 jobs:
     # Validate the Bicep templates
@@ -40,8 +41,11 @@ jobs:
           
           - name: runScript
             run: |
-              echo "Unzipping REDCap"  
-              unzip -qq redcap.zip -d redcap
-          
-          - name: listDir03
-            run: ls
+              if test -f "./redcap.zip"; then
+                  echo "redcap.zip exists."
+                  echo "Unzipping REDCap"  
+                  unzip -qq ./redcap.zip -d redcap
+              else
+                  echo "redcap.zip does not exist."
+                  ls -l
+              fi

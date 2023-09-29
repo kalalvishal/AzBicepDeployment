@@ -1,0 +1,36 @@
+## deploy azDeploySecureSub.bicep
+
+name: REDCap Unzip Test
+
+on:
+    workflow_dispatch:
+
+    push:
+        branches:
+            - main
+
+permissions:
+    id-token: write
+    contents: read
+
+env:
+    azCliVersion: 2.30.0
+    environment: 'env-redcap'
+    region: 'eastus'
+
+jobs:
+    # Validate the Bicep templates
+    validateDeployment:
+        runs-on: ubuntu-latest
+
+        steps:
+          - uses: actions/checkout@main
+            name: Checkout
+
+          - name: installPrereqs
+            run: | 
+                apt-get install unzip -y && apt-get install -y python3 python3-pip
+        
+          - name: runScript
+            run: | 
+                ../../deploy.sh

@@ -17,8 +17,7 @@ env:
     azCliVersion: 2.30.0
     environment: 'env-redcap'
     region: 'eastus'
-    redcap: 'https://strgredcapext.blob.core.windows.net/redcao/redcap13.8.5.zip?sp=r&st=2023-09-29T14:31:44Z&se=2023-09-29T22:31:44Z&spr=https&sv=2022-11-02&sr=b&sig=CKhjqTNyWYlsSicPYZJcha%2F6v5xcrFSQO70237tO%2BEY%3D'
-
+    
 jobs:
     # Validate the Bicep templates
     redcap-unzip-test:
@@ -36,7 +35,8 @@ jobs:
             run: ls
         
           - name: downloadRedcap
-            run: deploy.sh
+            run: |
+                ./deploy.sh
           
           - name: runScript
             run: |
